@@ -1,0 +1,12 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-PROD_UE.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\Users\islu9578\Documents\GitHub\PROD\PROD_UE\Intermediate\Build\Win64\x64\PROD_UEEditor\Development\UnrealEd\SharedPCH.UnrealEd.Project.ValApi.Cpp20.InclOrderOldest.h.obj"
+"C:\Users\islu9578\Documents\GitHub\PROD\PROD_UE\Intermediate\Build\Win64\x64\UnrealEditor\Development\PROD_UE\PROD_UE.cpp.obj"
+"C:\Users\islu9578\Documents\GitHub\PROD\PROD_UE\Intermediate\Build\Win64\x64\UnrealEditor\Development\PROD_UE\Default.rc2.res"
+/OUT:"C:\Users\islu9578\Documents\GitHub\PROD\PROD_UE\Intermediate\Build\Win64\x64\UnrealEditor\Development\PROD_UE\UnrealEditor-PROD_UE.lib"

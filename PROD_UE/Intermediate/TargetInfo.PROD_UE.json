@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "PROD_UE",
+			"Path": "..\\Source\\PROD_UE.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "PROD_UEEditor",
+			"Path": "..\\Source\\PROD_UEEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

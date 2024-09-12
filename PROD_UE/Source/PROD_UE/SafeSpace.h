@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/SphereComponent.h"
 
 #include "GameFramework/Actor.h"
 #include "SafeSpace.generated.h"
@@ -28,8 +29,24 @@ public:
 	bool GetIsPlayerOverlapping() const{return bIsPlayerOverlapping;}
 	
 private:
+
+	UPROPERTY(EditAnywhere)
+	USphereComponent* MySphereComponent;
+	
 	bool bIsPlayerOverlapping;
 	
-	void BeginOverlap(AActor* OtherActor);
-	void EndOverlap(AActor* OtherActor);
+	//void BeginOverlap(AActor* OtherActor);
+	UFUNCTION()
+	void BeginOverlap(UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex,
+		bool bFromSweep,
+		const FHitResult &SweepResult);
+
+	UFUNCTION()
+	void EndOverlap(UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex);
 };

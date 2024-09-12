@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/StaticMeshComponent.h"
 #include "GameFramework/Actor.h"
 #include "Key_Pickup.generated.h"
 
@@ -23,4 +24,21 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+private:
+
+	bool GetActive();
+
+	void Touched();
+
+	UPROPERTY(EditAnywhere, Category="Item")
+	FString name;
+	
+	UPROPERTY(EditAnywhere, Category="Item")
+	int amount;
+	
+	UPROPERTY(VisibleAnywhere, Category="Item")
+	class UStaticMeshComponent* itemMesh;
+	
+	UPROPERTY()
+	bool isInvisible;
 };

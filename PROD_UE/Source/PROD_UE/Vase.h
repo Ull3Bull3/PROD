@@ -27,6 +27,9 @@ public:
 	void Wobble();
 
 	UFUNCTION(BlueprintCallable)
+	void Save();
+
+	UFUNCTION(BlueprintCallable)
 	void Break();
 	
 private:
@@ -34,11 +37,20 @@ private:
 	USoundBase* WobbleSound;
 
 	UPROPERTY(EditAnywhere)
+	USoundBase* SaveSound;
+
+	UPROPERTY(EditAnywhere)
 	USoundBase* BreakSound;
+
+	UPROPERTY(EditAnywhere)
+	float WobbleTime;
 	
 	UPROPERTY(VisibleAnywhere)
 	bool IsWobbling;
 
 	UPROPERTY(VisibleAnywhere)
 	bool IsBroken;
+
+	UPROPERTY(VisibleAnywhere)
+	bool IsSaved;
 };

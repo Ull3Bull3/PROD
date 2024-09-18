@@ -2,6 +2,7 @@
 
 
 #include "Vase.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AVase::AVase()
@@ -25,3 +26,21 @@ void AVase::Tick(float DeltaTime)
 
 }
 
+void AVase::Wobble()
+{
+	if (WobbleSound && !IsBroken)
+	{
+		IsWobbling = true;
+		UGameplayStatics::PlaySoundAtLocation(this, WobbleSound, GetActorLocation());
+	}
+}
+
+void AVase::Break()
+{
+	if (BreakSound)
+	{
+		IsWobbling = false;
+		IsBroken = true;
+		UGameplayStatics::PlaySoundAtLocation(this, BreakSound, GetActorLocation());
+	}
+}

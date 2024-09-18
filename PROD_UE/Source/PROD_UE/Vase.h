@@ -22,8 +22,23 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION(BlueprintCallable)
+	void Wobble();
+
+	UFUNCTION(BlueprintCallable)
+	void Break();
 	
 private:
+	UPROPERTY(EditAnywhere)
+	USoundBase* WobbleSound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* BreakSound;
+	
 	UPROPERTY(VisibleAnywhere)
 	bool IsWobbling;
+
+	UPROPERTY(VisibleAnywhere)
+	bool IsBroken;
 };

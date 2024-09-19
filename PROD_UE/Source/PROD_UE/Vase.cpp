@@ -2,6 +2,7 @@
 
 
 #include "Vase.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AVase::AVase()
@@ -23,5 +24,44 @@ void AVase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (IsWobbling)
+	{
+		if (UGameplayStatics::GetPlayerController(this, 0)->IsInputKeyDown(EKeys::F))
+		{
+			Save();
+			WobbleTime = 0.0f;
+		}
+	}
 }
 
+void AVase::Wobble()
+{
+	if (WobbleSound && !IsBroken)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, WobbleSound, GetActorLocation());
+		IsWobbling = true;
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AVase::Break,WobbleTime);
+	}
+}
+
+void AVase::Save()
+{
+	if (SaveSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, SaveSound, GetActorLocation());
+		IsWobbling = false;
+		IsSaved = true;
+		GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+	}
+}
+
+void AVase::Break()
+{
+	if (BreakSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, BreakSound, GetActorLocation());
+		IsWobbling = false;
+		IsBroken = true;
+		GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+	}
+}

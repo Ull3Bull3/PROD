@@ -53,4 +53,6 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	bool IsSaved;
+
+	FTimerHandle TimerHandle;
 };

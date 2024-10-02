@@ -29,13 +29,10 @@ void AVase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (IsFalling && PlayerCharacterMovementComponent)
-	{
-		if (UGameplayStatics::GetPlayerController(this, 0)->IsInputKeyDown(EKeys::LeftControl))
-		{
-			Catch(PlayerCharacterMovementComponent);
-		}
-	}
+	if (UGameplayStatics::GetPlayerController(this, 0)->IsInputKeyDown(EKeys::LeftControl) && WobbleTimerHandle.IsValid() && PlayerCharacterMovementComponent)
+		Break(PlayerCharacterMovementComponent);
+	else if (UGameplayStatics::GetPlayerController(this, 0)->IsInputKeyDown(EKeys::LeftControl) && IsFalling && PlayerCharacterMovementComponent && !InvalidCatch)
+		Catch(PlayerCharacterMovementComponent);
 }
 
 void AVase::Wobble(UCharacterMovementComponent* CharacterMovementComponent)
@@ -77,15 +74,12 @@ void AVase::Catch(UCharacterMovementComponent* CharacterMovementComponent)
 	if (CaughtSound && PlayerCharacterMovementComponent && VaseMeshComponent)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, CaughtSound, GetActorLocation());
-		IsCaught = true;
 		GetWorld()->GetTimerManager().ClearTimer(CatchTimerHandle);
-		IsFalling = false;
-        
-		// Disable collision for the vase's static mesh
 		VaseMeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
-		// Set the character's movement mode to walking
 		CharacterMovementComponent->SetMovementMode(MOVE_Walking);
+		IsCaught = true;
+		IsFalling = false;
+		InvalidCatch = false;
 	}
 }
 
@@ -96,10 +90,12 @@ void AVase::Break(UCharacterMovementComponent* CharacterMovementComponent)
 	if (BreakSound && PlayerCharacterMovementComponent && VaseMeshComponent)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, BreakSound, GetActorLocation());
-		IsBroken = true;
 		GetWorld()->GetTimerManager().ClearTimer(CatchTimerHandle);
-		IsFalling = false;
 		VaseMeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		CharacterMovementComponent->SetMovementMode(MOVE_Walking);
+		IsBroken = true;
+		IsFalling = false;
+		InvalidCatch = true;
+		GetWorld()->GetTimerManager().ClearTimer(WobbleTimerHandle);
 	}
 }

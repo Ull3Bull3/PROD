@@ -72,6 +72,9 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	bool IsBroken;
 
+	UPROPERTY(VisibleAnywhere)
+	bool InvalidCatch;
+
 	FTimerHandle WobbleTimerHandle;
 	FTimerHandle CatchTimerHandle;
 	

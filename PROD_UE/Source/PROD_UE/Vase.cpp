@@ -10,6 +10,11 @@ AVase::AVase()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Create and initialize the StaticMeshComponent
+	VaseMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VaseMeshComponent"));
+    
+	// Set it as the RootComponent or attach to another component
+	RootComponent = VaseMeshComponent;
 }
 
 // Called when the game starts or when spawned
@@ -24,44 +29,77 @@ void AVase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (IsWobbling)
+	if (IsFalling && PlayerCharacterMovementComponent)
 	{
-		if (UGameplayStatics::GetPlayerController(this, 0)->IsInputKeyDown(EKeys::F))
+		if (UGameplayStatics::GetPlayerController(this, 0)->IsInputKeyDown(EKeys::LeftControl))
 		{
-			Save();
-			WobbleTime = 0.0f;
+			Catch(PlayerCharacterMovementComponent);
 		}
 	}
 }
 
-void AVase::Wobble()
+void AVase::Wobble(UCharacterMovementComponent* CharacterMovementComponent)
 {
-	if (WobbleSound && !IsBroken)
+	PlayerCharacterMovementComponent = CharacterMovementComponent;
+	
+	if (WobbleSound && !IsBroken && !IsCaught && PlayerCharacterMovementComponent)
 	{
+		PlayerCharacterMovementComponent->StopMovementImmediately();
+		PlayerCharacterMovementComponent->DisableMovement();
 		UGameplayStatics::PlaySoundAtLocation(this, WobbleSound, GetActorLocation());
 		IsWobbling = true;
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AVase::Break,WobbleTime);
+		FTimerDelegate WobbleTimerDelegate;
+		WobbleTimerDelegate.BindUFunction(this, "Fall", PlayerCharacterMovementComponent);
+		GetWorld()->GetTimerManager().SetTimer(WobbleTimerHandle, WobbleTimerDelegate,WobbleTime, false);
 	}
 }
 
-void AVase::Save()
+void AVase::Fall(UCharacterMovementComponent* CharacterMovementComponent)
 {
-	if (SaveSound)
+	PlayerCharacterMovementComponent = CharacterMovementComponent;
+	
+	if (InteractableSound && PlayerCharacterMovementComponent)
 	{
-		UGameplayStatics::PlaySoundAtLocation(this, SaveSound, GetActorLocation());
+		FTimerDelegate FallTimerDelegate;
+		FallTimerDelegate.BindUFunction(this, "Break", CharacterMovementComponent);
+		GetWorld()->GetTimerManager().SetTimer(CatchTimerHandle, FallTimerDelegate,FallTime, false);
+		UGameplayStatics::PlaySoundAtLocation(this, InteractableSound, GetActorLocation());
 		IsWobbling = false;
-		IsSaved = true;
-		GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+		IsFalling = true;
+		GetWorld()->GetTimerManager().ClearTimer(WobbleTimerHandle);
 	}
 }
 
-void AVase::Break()
+void AVase::Catch(UCharacterMovementComponent* CharacterMovementComponent)
 {
-	if (BreakSound)
+	PlayerCharacterMovementComponent = CharacterMovementComponent;
+
+	if (CaughtSound && PlayerCharacterMovementComponent && VaseMeshComponent)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, CaughtSound, GetActorLocation());
+		IsCaught = true;
+		GetWorld()->GetTimerManager().ClearTimer(CatchTimerHandle);
+		IsFalling = false;
+        
+		// Disable collision for the vase's static mesh
+		VaseMeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+		// Set the character's movement mode to walking
+		CharacterMovementComponent->SetMovementMode(MOVE_Walking);
+	}
+}
+
+void AVase::Break(UCharacterMovementComponent* CharacterMovementComponent)
+{
+	PlayerCharacterMovementComponent = CharacterMovementComponent;
+
+	if (BreakSound && PlayerCharacterMovementComponent && VaseMeshComponent)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, BreakSound, GetActorLocation());
-		IsWobbling = false;
 		IsBroken = true;
-		GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+		GetWorld()->GetTimerManager().ClearTimer(CatchTimerHandle);
+		IsFalling = false;
+		VaseMeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		CharacterMovementComponent->SetMovementMode(MOVE_Walking);
 	}
 }

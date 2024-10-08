@@ -29,9 +29,11 @@ void AVase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (UGameplayStatics::GetPlayerController(this, 0)->IsInputKeyDown(EKeys::LeftControl) && WobbleTimerHandle.IsValid() && PlayerCharacterMovementComponent)
+	//if (UGameplayStatics::GetPlayerController(this, 0)->IsInputKeyDown(EKeys::LeftControl) && WobbleTimerHandle.IsValid() && PlayerCharacterMovementComponent)
+	if (UGameplayStatics::GetPlayerController(this, 0)->IsInputKeyDown(EKeys::F) && WobbleTimerHandle.IsValid() && PlayerCharacterMovementComponent)
 		Break(PlayerCharacterMovementComponent);
-	else if (UGameplayStatics::GetPlayerController(this, 0)->IsInputKeyDown(EKeys::LeftControl) && IsFalling && PlayerCharacterMovementComponent && !InvalidCatch)
+	//else if (UGameplayStatics::GetPlayerController(this, 0)->IsInputKeyDown(EKeys::LeftControl) && IsFalling && PlayerCharacterMovementComponent && !InvalidCatch)
+	else if (UGameplayStatics::GetPlayerController(this, 0)->IsInputKeyDown(EKeys::F) && IsFalling && PlayerCharacterMovementComponent && !InvalidCatch)
 		Catch(PlayerCharacterMovementComponent);
 }
 

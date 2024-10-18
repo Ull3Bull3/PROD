@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "Vase.generated.h"
 
 UCLASS()
@@ -24,20 +26,30 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
-	void Wobble();
+	void Wobble(UCharacterMovementComponent* CharacterMovementComponent);
 
 	UFUNCTION(BlueprintCallable)
-	void Save();
+	void Fall(UCharacterMovementComponent* CharacterMovementComponent);
 
 	UFUNCTION(BlueprintCallable)
-	void Break();
+	void Catch(UCharacterMovementComponent* CharacterMovementComponent);
+
+	UFUNCTION(BlueprintCallable)
+	void Break(UCharacterMovementComponent* CharacterMovementComponent);
+
+	// Reference to the static mesh component of the vase
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UStaticMeshComponent* VaseMeshComponent;
 	
 private:
 	UPROPERTY(EditAnywhere)
 	USoundBase* WobbleSound;
 
 	UPROPERTY(EditAnywhere)
-	USoundBase* SaveSound;
+	USoundBase* InteractableSound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* CaughtSound;
 
 	UPROPERTY(EditAnywhere)
 	USoundBase* BreakSound;
@@ -45,14 +57,26 @@ private:
 	UPROPERTY(EditAnywhere)
 	float WobbleTime;
 	
+	UPROPERTY(EditAnywhere)
+	float FallTime;
+	
 	UPROPERTY(VisibleAnywhere)
 	bool IsWobbling;
+	
+	UPROPERTY(VisibleAnywhere)
+	bool IsFalling;
+
+	UPROPERTY(VisibleAnywhere)
+	bool IsCaught;
 
 	UPROPERTY(VisibleAnywhere)
 	bool IsBroken;
 
 	UPROPERTY(VisibleAnywhere)
-	bool IsSaved;
+	bool InvalidCatch;
 
-	FTimerHandle TimerHandle;
+	FTimerHandle WobbleTimerHandle;
+	FTimerHandle CatchTimerHandle;
+	
+	UCharacterMovementComponent* PlayerCharacterMovementComponent;
 };

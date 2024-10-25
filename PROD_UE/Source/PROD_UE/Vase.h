@@ -37,6 +37,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Break(UCharacterMovementComponent* CharacterMovementComponent);
 
+	void Conclusion();
+
 	// Reference to the static mesh component of the vase
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UStaticMeshComponent* VaseMeshComponent;
@@ -55,10 +57,25 @@ private:
 	USoundBase* BreakSound;
 
 	UPROPERTY(EditAnywhere)
+	USoundBase* NotYetSound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* GotchaSound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* TooHastySound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* TooSoonSound;
+
+	UPROPERTY(EditAnywhere)
 	float WobbleTime;
 	
 	UPROPERTY(EditAnywhere)
 	float FallTime;
+
+	UPROPERTY(EditAnywhere)
+	float BreakTime;
 	
 	UPROPERTY(VisibleAnywhere)
 	bool IsWobbling;
@@ -77,6 +94,7 @@ private:
 
 	FTimerHandle WobbleTimerHandle;
 	FTimerHandle CatchTimerHandle;
+	FTimerHandle BreakTimerHandle;
 	
 	UCharacterMovementComponent* PlayerCharacterMovementComponent;
 };

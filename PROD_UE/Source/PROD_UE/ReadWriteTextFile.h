@@ -4,18 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "ReadWriteTextFile.generated.h"
+
 /**
  * 
  */
-class PROD_UE_API ReadWriteFile
+UCLASS()
+class PROD_UE_API UReadWriteTextFile : public UBlueprintFunctionLibrary
 {
-public:
-	ReadWriteFile();
-	~ReadWriteFile();
+	GENERATED_BODY()
+
 
 	UFUNCTION(BlueprintCallable, Category = "ReadWriteFile")
-	static FString ReadStringFromFile(FString path);
+	static FString ReadStringFromFile(FString Path);
 
 	UFUNCTION(BlueprintCallable, Category = "ReadWriteFile")
-	static void WriteStringToFile(FString path, FString string);
+	static void WriteStringToFile(FString Path, FString String);
 };

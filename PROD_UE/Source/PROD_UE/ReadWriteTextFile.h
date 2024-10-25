@@ -14,7 +14,7 @@ class PROD_UE_API UReadWriteTextFile : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
-
+public:
 	UFUNCTION(BlueprintCallable, Category = "ReadWriteFile")
 	static FString ReadStringFromFile(FString Path);
 

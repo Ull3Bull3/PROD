@@ -57,16 +57,34 @@ private:
 	USoundBase* BreakSound;
 
 	UPROPERTY(EditAnywhere)
-	USoundBase* NotYetSound;
-
+	USoundBase* CloseOneSound;
+	
 	UPROPERTY(EditAnywhere)
 	USoundBase* GotchaSound;
 
+	UPROPERTY(EditAnywhere)
+	USoundBase* IGotItSound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* SavedItSound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* StayThereSound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* MissedItSound;
+	
+	UPROPERTY(EditAnywhere)
+	USoundBase* TimeItSound;
+	
 	UPROPERTY(EditAnywhere)
 	USoundBase* TooHastySound;
 
 	UPROPERTY(EditAnywhere)
 	USoundBase* TooSoonSound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* TryAgainSound;
 
 	UPROPERTY(EditAnywhere)
 	float WobbleTime;
@@ -75,7 +93,7 @@ private:
 	float FallTime;
 
 	UPROPERTY(EditAnywhere)
-	float BreakTime;
+	float ConclusionTime;
 	
 	UPROPERTY(VisibleAnywhere)
 	bool IsWobbling;
@@ -94,7 +112,7 @@ private:
 
 	FTimerHandle WobbleTimerHandle;
 	FTimerHandle CatchTimerHandle;
-	FTimerHandle BreakTimerHandle;
+	FTimerHandle ConclusionTimerHandle;
 	
 	UCharacterMovementComponent* PlayerCharacterMovementComponent;
 };

@@ -47,7 +47,6 @@ void AVase::Wobble(UCharacterMovementComponent* CharacterMovementComponent)
 		PlayerCharacterMovementComponent->StopMovementImmediately();
 		PlayerCharacterMovementComponent->DisableMovement();
 		UGameplayStatics::PlaySoundAtLocation(this, WobbleSound, GetActorLocation());
-		UGameplayStatics::PlaySoundAtLocation(this, NotYetSound, GetActorLocation());
 		IsWobbling = true;
 		FTimerDelegate WobbleTimerDelegate;
 		WobbleTimerDelegate.BindUFunction(this, "Fall", PlayerCharacterMovementComponent);
@@ -77,14 +76,33 @@ void AVase::Catch(UCharacterMovementComponent* CharacterMovementComponent)
 
 	if (CaughtSound && PlayerCharacterMovementComponent && VaseMeshComponent)
 	{
-		UGameplayStatics::PlaySound2D(this, GotchaSound);
-		UGameplayStatics::PlaySoundAtLocation(this, CaughtSound, GetActorLocation());
+		switch(FMath::RandRange(0, 4))
+		{
+		case 0:
+			UGameplayStatics::PlaySound2D(this, CloseOneSound);
+			break;
+		case 1:
+			UGameplayStatics::PlaySound2D(this, GotchaSound);
+			break;
+		case 2:
+			UGameplayStatics::PlaySound2D(this, IGotItSound);
+			break;
+		case 3:
+			UGameplayStatics::PlaySound2D(this, SavedItSound);
+			break;
+		case 4:
+			UGameplayStatics::PlaySound2D(this, StayThereSound);
+			break;
+		default:
+			UE_LOG(LogTemp, Warning, TEXT("Hello World"));
+		}
 		GetWorld()->GetTimerManager().ClearTimer(CatchTimerHandle);
 		VaseMeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		CharacterMovementComponent->SetMovementMode(MOVE_Walking);
 		IsCaught = true;
 		IsFalling = false;
 		InvalidCatch = false;
+		GetWorld()->GetTimerManager().SetTimer(ConclusionTimerHandle, this, &AVase::Conclusion, ConclusionTime, false);
 	}
 }
 
@@ -101,26 +119,39 @@ void AVase::Break(UCharacterMovementComponent* CharacterMovementComponent)
 		CharacterMovementComponent->SetMovementMode(MOVE_Walking);
 		IsBroken = true;
 		IsFalling = false;
-		GetWorld()->GetTimerManager().SetTimer(BreakTimerHandle, this, &AVase::Conclusion, BreakTime, false);
+		GetWorld()->GetTimerManager().SetTimer(ConclusionTimerHandle, this, &AVase::Conclusion, ConclusionTime, false);
 	}
 }
 
 void AVase::Conclusion()
 {
-	if (InvalidCatch)
+	if (IsCaught)
 	{
-		switch(int Random = FMath::RandRange(0, 1))
+		UGameplayStatics::PlaySoundAtLocation(this, CaughtSound, GetActorLocation());
+	}
+	else if (InvalidCatch)
+	{
+		switch(FMath::RandRange(0, 4))
 		{
 		case 0:
-			UGameplayStatics::PlaySound2D(this, TooHastySound);
+			UGameplayStatics::PlaySound2D(this, MissedItSound);
 			break;
 		case 1:
+			UGameplayStatics::PlaySound2D(this, TimeItSound);
+			break;
+		case 2:
+			UGameplayStatics::PlaySound2D(this, TooHastySound);
+			break;
+		case 3:
 			UGameplayStatics::PlaySound2D(this, TooSoonSound);
 			break;
+		case 4:
+			UGameplayStatics::PlaySound2D(this, TryAgainSound);
+			break;
 		default:
-			UGameplayStatics::PlaySound2D(this, TooSoonSound);
+			UE_LOG(LogTemp, Warning, TEXT("Hello World"));
 		}
 	}
 	
-	GetWorld()->GetTimerManager().ClearTimer(BreakTimerHandle);
+	GetWorld()->GetTimerManager().ClearTimer(ConclusionTimerHandle);
 }

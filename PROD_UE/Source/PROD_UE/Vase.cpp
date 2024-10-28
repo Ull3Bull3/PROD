@@ -76,22 +76,16 @@ void AVase::Catch(UCharacterMovementComponent* CharacterMovementComponent)
 
 	if (CaughtSound && PlayerCharacterMovementComponent && VaseMeshComponent)
 	{
-		switch(FMath::RandRange(0, 4))
+		switch(FMath::RandRange(0, 2))
 		{
 		case 0:
-			UGameplayStatics::PlaySound2D(this, CloseOneSound);
-			break;
-		case 1:
 			UGameplayStatics::PlaySound2D(this, GotchaSound);
 			break;
-		case 2:
+		case 1:
 			UGameplayStatics::PlaySound2D(this, IGotItSound);
 			break;
-		case 3:
+		case 2:
 			UGameplayStatics::PlaySound2D(this, SavedItSound);
-			break;
-		case 4:
-			UGameplayStatics::PlaySound2D(this, StayThereSound);
 			break;
 		default:
 			UE_LOG(LogTemp, Warning, TEXT("Hello World"));
@@ -131,22 +125,16 @@ void AVase::Conclusion()
 	}
 	else if (InvalidCatch)
 	{
-		switch(FMath::RandRange(0, 4))
+		switch(FMath::RandRange(0, 2))
 		{
 		case 0:
-			UGameplayStatics::PlaySound2D(this, MissedItSound);
-			break;
-		case 1:
 			UGameplayStatics::PlaySound2D(this, TimeItSound);
 			break;
-		case 2:
+		case 1:
 			UGameplayStatics::PlaySound2D(this, TooHastySound);
 			break;
-		case 3:
+		case 2:
 			UGameplayStatics::PlaySound2D(this, TooSoonSound);
-			break;
-		case 4:
-			UGameplayStatics::PlaySound2D(this, TryAgainSound);
 			break;
 		default:
 			UE_LOG(LogTemp, Warning, TEXT("Hello World"));

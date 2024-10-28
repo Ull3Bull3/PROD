@@ -27,11 +27,14 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	bool GetIsPlayerOverlapping() const{return bIsPlayerOverlapping;}
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USphereComponent* MySphereComponent;
 	
 private:
 
-	UPROPERTY(EditAnywhere)
-	USphereComponent* MySphereComponent;
+	
 	
 	bool bIsPlayerOverlapping;
 	

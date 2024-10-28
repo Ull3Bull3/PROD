@@ -22,8 +22,9 @@ FString UReadWriteTextFile::ReadStringFromFile(FString Path)
 
 void UReadWriteTextFile::WriteStringToFile(FString Path, FString String)
 {
-	if (!FFileHelper::SaveStringToFile(String, *Path))
-	{
-
-	}
+	FString TempString = ReadStringFromFile(Path);
+	TempString.Append("\n");
+	TempString.Append(String);
+	
+	FFileHelper::SaveStringToFile(TempString, *Path);
 }

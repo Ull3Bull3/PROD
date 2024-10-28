@@ -40,6 +40,9 @@ public:
 	// Reference to the static mesh component of the vase
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UStaticMeshComponent* VaseMeshComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float FallTime;
 	
 private:
 	UPROPERTY(EditAnywhere)
@@ -56,9 +59,6 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float WobbleTime;
-	
-	UPROPERTY(EditAnywhere)
-	float FallTime;
 	
 	UPROPERTY(VisibleAnywhere)
 	bool IsWobbling;

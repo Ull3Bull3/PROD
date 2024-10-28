@@ -44,6 +44,7 @@ void AVase::Wobble(UCharacterMovementComponent* CharacterMovementComponent)
 	
 	if (WobbleSound && !IsBroken && !IsCaught && PlayerCharacterMovementComponent)
 	{
+		OnLog("Vase Wobble");
 		PlayerCharacterMovementComponent->StopMovementImmediately();
 		PlayerCharacterMovementComponent->DisableMovement();
 		UGameplayStatics::PlaySoundAtLocation(this, WobbleSound, GetActorLocation());
@@ -60,6 +61,7 @@ void AVase::Fall(UCharacterMovementComponent* CharacterMovementComponent)
 	
 	if (InteractableSound && PlayerCharacterMovementComponent)
 	{
+		OnLog("Vase Fall");
 		FTimerDelegate FallTimerDelegate;
 		FallTimerDelegate.BindUFunction(this, "Break", CharacterMovementComponent);
 		GetWorld()->GetTimerManager().SetTimer(CatchTimerHandle, FallTimerDelegate,FallTime, false);
@@ -76,6 +78,7 @@ void AVase::Catch(UCharacterMovementComponent* CharacterMovementComponent)
 
 	if (CaughtSound && PlayerCharacterMovementComponent && VaseMeshComponent)
 	{
+		OnLog("Vase Catch");
 		switch(FMath::RandRange(0, 2))
 		{
 		case 0:
@@ -106,6 +109,7 @@ void AVase::Break(UCharacterMovementComponent* CharacterMovementComponent)
 
 	if (BreakSound && PlayerCharacterMovementComponent && VaseMeshComponent)
 	{
+		OnLog("Vase Break");
 		UGameplayStatics::PlaySoundAtLocation(this, BreakSound, GetActorLocation());
 		GetWorld()->GetTimerManager().ClearTimer(WobbleTimerHandle);
 		GetWorld()->GetTimerManager().ClearTimer(CatchTimerHandle);

@@ -39,6 +39,9 @@ public:
 
 	void Conclusion();
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Log")
+	void OnLog(const FString& LogText);
+
 	// Reference to the static mesh component of the vase
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UStaticMeshComponent* VaseMeshComponent;

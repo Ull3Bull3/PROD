@@ -85,13 +85,13 @@ void AVase::Catch(UCharacterMovementComponent* CharacterMovementComponent)
 			UGameplayStatics::PlaySound2D(this, GotchaSound);
 			break;
 		case 1:
-			UGameplayStatics::PlaySound2D(this, IGotItSound);
+			UGameplayStatics::PlaySound2D(this, GotItSound);
 			break;
 		case 2:
 			UGameplayStatics::PlaySound2D(this, SavedItSound);
 			break;
 		default:
-			UE_LOG(LogTemp, Warning, TEXT("Hello World"));
+			UE_LOG(LogTemp, Warning, TEXT("Our of Range"));
 		}
 		GetWorld()->GetTimerManager().ClearTimer(CatchTimerHandle);
 		VaseMeshComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -141,7 +141,24 @@ void AVase::Conclusion()
 			UGameplayStatics::PlaySound2D(this, TooSoonSound);
 			break;
 		default:
-			UE_LOG(LogTemp, Warning, TEXT("Hello World"));
+			UE_LOG(LogTemp, Warning, TEXT("Out of Range"));
+		}
+	}
+	else
+	{
+		switch(FMath::RandRange(0, 2))
+		{
+		case 0:
+			UGameplayStatics::PlaySound2D(this, MissedItSound);
+			break;
+		case 1:
+			UGameplayStatics::PlaySound2D(this, TimeItSound);
+			break;
+		case 2:
+			UGameplayStatics::PlaySound2D(this, WasLateSound);
+			break;
+		default:
+			UE_LOG(LogTemp, Warning, TEXT("Out of Range"));
 		}
 	}
 	

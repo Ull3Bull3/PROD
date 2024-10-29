@@ -51,22 +51,22 @@ public:
 	
 private:
 	UPROPERTY(EditAnywhere)
-	USoundBase* WobbleSound;
+	USoundBase* BreakSound;
+	
+	UPROPERTY(EditAnywhere)
+	USoundBase* CaughtSound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* GotchaSound;
+	
+	UPROPERTY(EditAnywhere)
+	USoundBase* GotItSound;
 
 	UPROPERTY(EditAnywhere)
 	USoundBase* InteractableSound;
 
 	UPROPERTY(EditAnywhere)
-	USoundBase* CaughtSound;
-
-	UPROPERTY(EditAnywhere)
-	USoundBase* BreakSound;
-	
-	UPROPERTY(EditAnywhere)
-	USoundBase* GotchaSound;
-
-	UPROPERTY(EditAnywhere)
-	USoundBase* IGotItSound;
+	USoundBase* MissedItSound;
 
 	UPROPERTY(EditAnywhere)
 	USoundBase* SavedItSound;
@@ -79,6 +79,12 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	USoundBase* TooSoonSound;
+	
+	UPROPERTY(EditAnywhere)
+	USoundBase* WasLateSound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* WobbleSound;
 
 	UPROPERTY(EditAnywhere)
 	float WobbleTime;

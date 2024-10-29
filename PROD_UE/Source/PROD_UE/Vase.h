@@ -37,9 +37,17 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Break(UCharacterMovementComponent* CharacterMovementComponent);
 
+	void Conclusion();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Log")
+	void OnLog(const FString& LogText);
+
 	// Reference to the static mesh component of the vase
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UStaticMeshComponent* VaseMeshComponent;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    float FallTime;
 	
 private:
 	UPROPERTY(EditAnywhere)
@@ -53,12 +61,30 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	USoundBase* BreakSound;
+	
+	UPROPERTY(EditAnywhere)
+	USoundBase* GotchaSound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* IGotItSound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* SavedItSound;
+	
+	UPROPERTY(EditAnywhere)
+	USoundBase* TimeItSound;
+	
+	UPROPERTY(EditAnywhere)
+	USoundBase* TooHastySound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* TooSoonSound;
 
 	UPROPERTY(EditAnywhere)
 	float WobbleTime;
-	
+
 	UPROPERTY(EditAnywhere)
-	float FallTime;
+	float ConclusionTime;
 	
 	UPROPERTY(VisibleAnywhere)
 	bool IsWobbling;
@@ -77,6 +103,7 @@ private:
 
 	FTimerHandle WobbleTimerHandle;
 	FTimerHandle CatchTimerHandle;
+	FTimerHandle ConclusionTimerHandle;
 	
 	UCharacterMovementComponent* PlayerCharacterMovementComponent;
 };

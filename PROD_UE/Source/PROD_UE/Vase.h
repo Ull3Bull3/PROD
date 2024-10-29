@@ -42,6 +42,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Log")
 	void OnLog(const FString& LogText);
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Monster")
+	void SpawnMonster();
+
 	// Reference to the static mesh component of the vase
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UStaticMeshComponent* VaseMeshComponent;

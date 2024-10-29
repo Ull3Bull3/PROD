@@ -143,6 +143,8 @@ void AVase::Conclusion()
 		default:
 			UE_LOG(LogTemp, Warning, TEXT("Out of Range"));
 		}
+
+		SpawnMonster();
 	}
 	else
 	{
@@ -160,6 +162,8 @@ void AVase::Conclusion()
 		default:
 			UE_LOG(LogTemp, Warning, TEXT("Out of Range"));
 		}
+
+		SpawnMonster();
 	}
 	
 	GetWorld()->GetTimerManager().ClearTimer(ConclusionTimerHandle);
